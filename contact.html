@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Contact - Turkish Appetizers</title>
+    <style>
+        /* Tab stilleri */
+        .tab-container {
+            margin-top: 30px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #4a5568;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="site-title">
+            <h1>MEZZEMONDO</h1>
+        </div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- İletişim Bilgileri Bölümü -->
+    <div class="contact-container">
+        <div class="contact-card">
+            <div class="contact-header">
+                <h2>Contact Information</h2>
+                <p>You can reach us to taste our traditional flavors and place your order.</p>
+            </div>
+
+            <div class="contact-info">
+                <div class="info-item">
+                    <h3>Address</h3>
+                    <p>Rossi Gianni
+                        Via Garibaldi 26
+                        70043 Monopoli BA
+                        ITALY</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Phone</h3>
+                    <p>Store: +39 345 678 9012</p>
+                    <p>Mobile: +39 345 678 0000</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Email</h3>
+                    <p>info@turkishappetizers.com</p>
+                    <p>orders@turkishappetizers.com</p>
+                </div>
+
+                <div class="info-item">
+                    <h3>Opening Hours</h3>
+                    <p>Weekdays: 10:00 AM - 9:00 PM</p>
+                    <p>Weekends: 11:00 AM - 10:00 PM</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Tab Sistemi -->
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="comments">Leave a Comment</button>
+                <button class="tab-btn" data-tab="feedback">Send Feedback</button>
+            </div>
+
+            <!-- Yorum Tab İçeriği -->
+            <div id="comments" class="tab-content active">
+                <form id="commentForm">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Your Comment:</label>
+                        <textarea id="comment" name="comment" rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Comment</button>
+                </form>
+
+                <div class="comments-display">
+                    <h3>Recent Comments</h3>
+                    <div id="commentsList"></div>
+                </div>
+            </div>
+
+            <!-- Feedback Tab İçeriği -->
+            <div id="feedback" class="tab-content">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="feedbackName">Name:</label>
+                        <input type="text" id="feedbackName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackEmail">Email:</label>
+                        <input type="email" id="feedbackEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedbackType">Feedback Type:</label>
+                        <select id="feedbackType" name="feedbackType" required>
+                            <option value="">Select Type</option>
+                            <option value="complaint">Complaint</option>
+                            <option value="suggestion">Suggestion</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Your Message:</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Feedback</button>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab sistemi için 
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+
+                    // Aktif tab butonunu değiştir
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Aktif içeriği değiştir
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+
+        // Yorum formu 
+        document.getElementById('commentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                comment: document.getElementById('comment').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    this.reset();
+                    alert('Comment submitted successfully!');
+                    loadComments();
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting comment');
+            }
+        });
+
+        // Feedback formu işleme
+        document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('feedbackName').value,
+                email: document.getElementById('feedbackEmail').value,
+                feedbackType: document.getElementById('feedbackType').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    this.reset();
+                    alert('Feedback submitted successfully!');
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting feedback');
+            }
+        });
+
+        // Yorumları yükleme fonksiyonu
+        async function loadComments() {
+            try {
+                const response = await fetch('http://localhost:3000/api/comments');
+                const result = await response.json();
+                
+                if (result.success) {
+                    const commentsDiv = document.getElementById('commentsList');
+                    commentsDiv.innerHTML = result.data.map(comment => `
+                        <div class="comment">
+                            <h4>${comment.name}</h4>
+                            <p>${comment.comment}</p>
+                            <small>${new Date(comment.date).toLocaleString()}</small>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        // Sayfa yüklendiğinde yorumları yükle
+        loadComments();
+    </script>
+</body>
+</html>
